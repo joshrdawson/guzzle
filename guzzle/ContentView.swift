@@ -10,59 +10,46 @@ import SwiftUI
 struct ContentView: View {
 	@StateObject var viewRouter: ViewRouter
 	var body: some View {
-			VStack {
-				Spacer()
-				switch viewRouter.currentTab {
-				case .home:
-					Text("Home")
-				case .me:
-					Text("Me")
-				case .awards:
-					Text("Awards")
-				case .settings:
-					Text("Settings")
-				}
-				
-				Spacer()
-				
-				HStack {
-					
-					HStack {
-						Spacer()
-						
-						BarItem(viewRouter: viewRouter, assignedPage: .home, systemIcon: "house", tabName: "Home")
-						
-						Spacer()
-						
-						BarItem(viewRouter: viewRouter, assignedPage: .me, systemIcon: "person", tabName: "Me")
-						
-						Spacer()
-					}
-					
-					ZStack {
-						Image(systemName: "plus.circle.fill")
-							.resizable()
-							.aspectRatio(contentMode: .fit)
-							.frame(width: 70)
-							.foregroundColor(Color.blue)
-					}.offset(y: -60)
-					
-					HStack {
-						Spacer()
-						
-						BarItem(viewRouter: viewRouter, assignedPage: .awards, systemIcon: "rosette", tabName: "Awards")
-						
-						Spacer()
-						
-						BarItem(viewRouter: viewRouter, assignedPage: .settings, systemIcon: "gear", tabName: "Settings")
-						
-						Spacer()
-					}
-					
-				}
-				.background(Color.black.opacity(0.05)).shadow(radius: 1)
+		VStack { // VStack containing the current tab & navigation bar
+			Spacer()
+			switch viewRouter.currentTab { // Decide which view to display based on currentTab
+			case .home:
+				Text("Home")
+			case .me:
+				Text("Me")
+			case .awards:
+				Text("Awards")
+			case .settings:
+				Text("Settings")
+			case .add:
+				Text("Add Drink")
 			}
-			.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+			
+			Spacer()
+			
+			HStack { // Represents the navigation bar
+				
+				HStack { // split into two HStack, this being the left side
+					Spacer()
+					BarItem(viewRouter: viewRouter, assignedPage: .home, systemIcon: "house", tabName: "Home")
+					Spacer()
+					BarItem(viewRouter: viewRouter, assignedPage: .me, systemIcon: "person", tabName: "Me")
+					Spacer( )
+				}
+				
+				PlusBarItem(viewRouter: viewRouter)
+								
+				HStack {
+					Spacer()
+					BarItem(viewRouter: viewRouter, assignedPage: .awards, systemIcon: "rosette", tabName: "Awards")
+					Spacer()
+					BarItem(viewRouter: viewRouter, assignedPage: .settings, systemIcon: "gear", tabName: "Settings")
+					Spacer()
+				}
+			}
+			.shadow(radius: 1)
+		}
+		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 	}
 }
 
@@ -92,13 +79,32 @@ struct BarItem: View {
 	var body: some View {
 		VStack {
 			Image(systemName: systemIcon)
-			Text(tabName).font(.footnote)
+			Text(tabName)
+				.font(.footnote)
 		}
 		.font(.system(size: 37.5))
 		.padding(.top, 10)
 		.padding(.bottom, 30)
 		.onTapGesture {
 			viewRouter.currentTab = assignedPage
+		}
+		
+	}
+}
+
+struct PlusBarItem: View {
+	@StateObject var viewRouter: ViewRouter
+	var body: some View {
+		VStack {
+			Image(systemName: "plus.circle.fill")
+				.foregroundColor(.blue)
+		}
+		.font(.system(size: 70))
+		.padding(.top, 10)
+		.padding(.bottom, 30)
+		.offset(y: -25)
+		.onTapGesture {
+			viewRouter.currentTab = .add
 		}
 		
 	}

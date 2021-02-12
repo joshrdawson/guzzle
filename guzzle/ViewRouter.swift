@@ -16,4 +16,5 @@ enum Page {
 	case me
 	case awards
 	case settings
+	case add
 }
