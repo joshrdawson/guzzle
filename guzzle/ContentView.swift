@@ -14,15 +14,15 @@ struct ContentView: View {
 			Spacer()
 			switch viewRouter.currentTab { // Decide which view to display based on currentTab
 			case .home:
-				Text("Home")
+				PageView(tabName: "Home")
 			case .me:
-				Text("Me")
+				PageView(tabName: "Me")
 			case .awards:
-				Text("Awards")
+				PageView(tabName: "Awards")
 			case .settings:
-				Text("Settings")
+				PageView(tabName: "Settings")
 			case .add:
-				Text("Add Drink")
+				PageView(tabName: "Add Drink")
 			}
 			
 			Spacer()
