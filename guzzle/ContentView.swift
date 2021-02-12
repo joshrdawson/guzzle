@@ -47,7 +47,7 @@ struct ContentView: View {
 					Spacer()
 				}
 			}
-			.shadow(radius: 1)
+			.shadow(radius: 3)
 		}
 		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 	}
@@ -84,7 +84,7 @@ struct BarItem: View {
 		}
 		.font(.system(size: 37.5))
 		.padding(.top, 10)
-		.padding(.bottom, 30)
+		.padding(.bottom, 40)
 		.onTapGesture {
 			viewRouter.currentTab = assignedPage
 		}
@@ -100,8 +100,7 @@ struct PlusBarItem: View {
 				.foregroundColor(.blue)
 		}
 		.font(.system(size: 70))
-		.padding(.top, 10)
-		.padding(.bottom, 30)
+		.padding(.bottom, 40)
 		.offset(y: -25)
 		.onTapGesture {
 			viewRouter.currentTab = .add
