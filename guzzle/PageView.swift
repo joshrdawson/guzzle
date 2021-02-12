@@ -10,11 +10,23 @@ import SwiftUI
 struct PageView: View {
 	let tabName: String
     var body: some View {
-		NavigationView {
-				Text("Hello")
-			.navigationTitle(tabName)
-		}
-		.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+			ZStack {
+				VStack {
+					HStack {
+						Text(tabName)
+							.font(.system(size: 40))
+							.font(.largeTitle)
+							.bold()
+							.padding(.horizontal, 30)
+							.padding(.top, 45)
+						Spacer()
+					}
+					Rectangle()
+						.foregroundColor(Color("pageBackground")).cornerRadius(55)
+						.shadow(radius: 3)
+				}
+				Text("This is the \(tabName) view")
+			}
 	}
 }
 
