@@ -12,7 +12,7 @@ struct guzzleApp: App {
 	@StateObject var viewRouter = ViewRouter()
     var body: some Scene {
         WindowGroup {
-			ContentView(viewRouter: viewRouter)
+			ContentView(viewRouter: viewRouter, todayProgress: 0.1)
         }
     }
 }

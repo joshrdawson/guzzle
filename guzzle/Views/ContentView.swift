@@ -9,20 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
 	@StateObject var viewRouter: ViewRouter
+	@State var todayProgress: Float
 	var body: some View {
 		VStack { // VStack containing the current tab & navigation bar
 			Spacer()
 			switch viewRouter.currentTab { // Decide which view to display based on currentTab
 			case .home:
-				PageView(tabName: "Home")
+				HomePageView(todayProgress: $todayProgress)
 			case .me:
-				PageView(tabName: "Me")
+				ProfilePageView()
 			case .awards:
-				PageView(tabName: "Awards")
+				AwardPageView()
 			case .settings:
-				PageView(tabName: "Settings")
+				SettingsPageView()
 			case .add:
-				PageView(tabName: "Add Drink")
+				AddDrinkPageView()
 			}
 			
 			Spacer()
@@ -55,7 +56,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView(viewRouter: ViewRouter())
+		ContentView(viewRouter: ViewRouter(), todayProgress: 0.1)
 	}
 }
 
