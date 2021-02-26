@@ -13,20 +13,28 @@ struct ContentView: View {
 	var body: some View {
 		VStack { // VStack containing the current tab & navigation bar
 			Spacer()
-			switch viewRouter.currentTab { // Decide which view to display based on currentTab
-			case .home:
-				HomePageView(todayProgress: $todayProgress)
-			case .me:
-				ProfilePageView()
-			case .awards:
-				AwardPageView()
-			case .settings:
-				SettingsPageView()
-			case .add:
-				AddDrinkPageView()
-			}
 			
-			Spacer()
+			ZStack {
+				VStack {
+					Spacer(minLength: 95)
+					Rectangle()
+						.foregroundColor(Color("pageBackground")).cornerRadius(55)
+						.padding(.horizontal, 10)
+						.shadow(radius: 3)
+				}
+				switch viewRouter.currentTab { // Decide which view to display based on currentTab
+				case .home:
+					HomePageView(todayProgress: $todayProgress)
+				case .me:
+					ProfilePageView()
+				case .awards:
+					AwardPageView()
+				case .settings:
+					SettingsPageView()
+				case .add:
+					AddDrinkPageView()
+				}
+			}
 			
 			HStack { // Represents the navigation bar
 				

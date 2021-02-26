@@ -19,22 +19,32 @@ struct AwardPageView: View {
 					.padding(.top, 45)
 				Spacer()
 			}
-			ZStack {
-				Rectangle()
-					.foregroundColor(Color("pageBackground")).cornerRadius(55)
-					.padding(.horizontal, 10)
-					.shadow(radius: 3)
-				// page contents
-				VStack {
-
+			VStack {
+				HStack {
+					AwardView(awardIcon: "7.circle", awardName: "Log your water intake 7 days in a row!", currentProgress: 5, target: 10)
+					AwardView(awardIcon: "flame.fill", awardName: "Smash your target 2 days in a row!", currentProgress: 3, target: 10)
+					AwardView(awardIcon: "2.circle", awardName: "Smash your daily goal by over double!", currentProgress: 9, target: 10)
 				}
+				.frame(maxHeight: 175)
+				HStack {
+					AwardView(awardIcon: "flame.fill", awardName: "Smash your goal by over triple!", currentProgress: 3, target: 10)
+					AwardView(awardIcon: "calendar", awardName: "Beat your goal for a whole month!", currentProgress: 5, target: 10)
+					AwardView(awardIcon: "calendar", awardName: "Beat your target three months!", currentProgress: 9, target: 10)
+				}
+				.frame(maxHeight: 175)
+				HStack {
+					AwardView(awardIcon: "camera.filters", awardName: "Log 3 different drink types in 1 day!", currentProgress: 5, target: 10)
+					AwardView(awardIcon: "person.crop.circle.fill", awardName: "Create a profile and get daily goal!", currentProgress: 3, target: 10)
+				}
+				.frame(maxHeight: 175)
+				Spacer()
 			}
 		}
 	}
 }
 
 struct AwardPageView_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		AwardPageView()
-    }
+	}
 }

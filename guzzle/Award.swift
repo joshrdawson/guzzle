@@ -14,7 +14,7 @@ final class Award {
 	let target: Double
 	var complete: Bool
 	
-	init(awardIcon: String, awardName: String, description: String, currentProgress: Double, target: Double) {
+	init(awardIcon: String, awardName: String, currentProgress: Double, target: Double) {
 		self.awardIcon = awardIcon
 		self.awardName = awardName
 		self.currentProgress = currentProgress

@@ -19,9 +19,9 @@ struct ProgressCapsule: View {
 				HStack {
 					Capsule()
 						.size(width: CGFloat(325 * progress) + 10, height: 15)
-						.frame(width: CGFloat(325 * progress) + 10, height: 15, alignment: .leading)
+						.frame(width: CGFloat(325 * progress), height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
 						.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-						.padding(.horizontal, 45)
+						.shadow(radius: 2)
 					Spacer()
 				}
 			}
@@ -29,12 +29,13 @@ struct ProgressCapsule: View {
 				Spacer()
 				Text("\(String(format: "%.1f", Float(target) * progress))L")
 					.bold()
-				Spacer(minLength: 275)
+				Spacer(minLength: 220)
 				Text("\(String(format: "%.1f", Float(target)))L")
 					.bold()
 				Spacer()
 			}
 		}
+		.frame(width: 330, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
     }
 }
 

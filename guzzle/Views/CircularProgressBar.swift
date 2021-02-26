@@ -3,6 +3,7 @@
 //  guzzle
 //
 //  Created by Josh on 25/02/2021.
+//  Follows this tutorial: https://www.simpleswiftguide.com/how-to-build-a-circular-progress-bar-in-swiftui/
 //
 
 import SwiftUI

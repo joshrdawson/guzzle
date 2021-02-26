@@ -19,22 +19,12 @@ struct SettingsPageView: View {
 					.padding(.top, 45)
 				Spacer()
 			}
-			ZStack {
-				Rectangle()
-					.foregroundColor(Color("pageBackground")).cornerRadius(55)
-					.padding(.horizontal, 10)
-					.shadow(radius: 3)
-				// page contents
-				VStack {
-
-				}
-			}
 		}
 	}
 }
 
 struct SettingsPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsPageView()
-    }
+	static var previews: some View {
+		SettingsPageView()
+	}
 }
