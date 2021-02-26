@@ -16,6 +16,7 @@ struct ProgressCapsule: View {
 				Capsule()
 					.size(width: 325, height: 15)
 					.frame(width: 325, height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+					.shadow(radius: 2)
 				HStack {
 					Capsule()
 						.size(width: CGFloat(325 * progress) + 10, height: 15)

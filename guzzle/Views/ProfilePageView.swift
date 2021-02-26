@@ -42,7 +42,7 @@ struct ProfilePageView: View {
 						.aspectRatio(contentMode: .fit)
 						.padding(.horizontal, 20)
 						.frame(width: 250)
-						.shadow(radius: 15)
+						.shadow(radius: 5)
 					Spacer()
 				}
 				HStack {
