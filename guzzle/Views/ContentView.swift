@@ -22,6 +22,7 @@ struct ContentView: View {
 						.padding(.horizontal, 10)
 						.shadow(radius: 3)
 				}
+				
 				switch viewRouter.currentTab { // Decide which view to display based on currentTab
 				case .home:
 					HomePageView(todayProgress: $todayProgress)
@@ -30,10 +31,11 @@ struct ContentView: View {
 				case .awards:
 					AwardPageView()
 				case .settings:
-					SettingsPageView()
+					SettingsPageView(dailyGoal: Binding.constant(2))
 				case .add:
 					AddDrinkPageView()
 				}
+				
 			}
 			
 			HStack { // Represents the navigation bar
@@ -68,18 +70,6 @@ struct ContentView_Previews: PreviewProvider {
 	}
 }
 
-struct RedView: View {
-	var body: some View {
-		Color.red.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-	}
-}
-
-struct BlueView: View {
-	var body: some View {
-		Color.blue.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-	}
-}
-
 struct BarItem: View {
 	@StateObject var viewRouter: ViewRouter
 	let assignedPage: Page
@@ -90,10 +80,11 @@ struct BarItem: View {
 			Image(systemName: systemIcon)
 			Text(tabName)
 				.font(.footnote)
+				.padding(.top, 1)
 		}
 		.font(.system(size: 37.5))
-		.padding(.top, 10)
-		.padding(.bottom, 40)
+		.padding(.top, 5)
+		.padding(.bottom, 35)
 		.onTapGesture {
 			viewRouter.currentTab = assignedPage
 		}

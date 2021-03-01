@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ProfilePageView: View {
-	var name: String = "Joshua Dawson"
-	var age: Int = 21
-	var gender: String = "Male"
-	var weight: Int = 80
-	var activityLevel: ActivityLevel = .Average
+	var TESTname: String = "Joshua Dawson"
+	var TESTage: Int = 21
+	var TESTgender: String = "Male"
+	var TESTweight: Int = 80
+	var TESTactivityLevel: ActivityLevel = .Average
 	
-	var suggestedGoal: Int = 3
+	var TESTsuggestedGoal: Int = 3
 	
 	enum ActivityLevel: String {
 		case Inactive
@@ -37,7 +37,7 @@ struct ProfilePageView: View {
 			VStack {
 				HStack {
 					Spacer()
-					Image(gender == "Male" ? "avatar-male" : "avatar-female")
+					Image(TESTgender == "Male" ? "avatar-male" : "avatar-female")
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.padding(.horizontal, 20)
@@ -47,12 +47,12 @@ struct ProfilePageView: View {
 				}
 				HStack {
 					VStack(alignment: .leading, spacing: 10) {
-						Text("Name: \(name)")
-						Text("Age: \(age) years old")
-						Text("Gender: \(gender)")
-						Text("Weight: \(weight)kg")
-						Text("Activity Level: \(activityLevel.rawValue)")
-						Text("Suggested Goal: \(suggestedGoal)L")
+						Text("Name: \(TESTname)")
+						Text("Age: \(TESTage) years old")
+						Text("Gender: \(TESTgender)")
+						Text("Weight: \(TESTweight)kg")
+						Text("Activity Level: \(TESTactivityLevel.rawValue)")
+						Text("Suggested Goal: \(TESTsuggestedGoal)L")
 							.bold()
 							.font(.system(size: 30))
 							.padding(.top, 20)
