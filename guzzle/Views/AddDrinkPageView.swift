@@ -68,7 +68,7 @@ struct AddDrinkPageView: View {
 							.frame(width: 125, height: 55, alignment: .leading)
 							.padding(.trailing, 225)
 							.padding(.top, 20)
-							.foregroundColor(.green)
+							.foregroundColor(.blue)
 						Text("Add")
 							.font(.system(size: 25))
 							.padding(.trailing, 223)

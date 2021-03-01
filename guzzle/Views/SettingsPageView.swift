@@ -121,6 +121,11 @@ struct SettingsPageView: View {
 					}
 				}
 				Spacer()
+				Text("App created by Josh Dawson")
+					.font(.system(size: 17.5))
+					.foregroundColor(.gray)
+					.padding(.bottom, 40)
+				Spacer()
 			}
 		}
 	}

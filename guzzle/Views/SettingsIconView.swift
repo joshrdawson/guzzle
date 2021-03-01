@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsIconView: View {
 	var iconName: String
-    var body: some View {
+	var body: some View {
 		ZStack {
 			Rectangle()
 				.size(width: 40, height: 40)
@@ -21,11 +21,12 @@ struct SettingsIconView: View {
 				.aspectRatio(contentMode: .fit)
 				.frame(width: 30, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
 		}
-    }
+		.shadow(radius: 2)
+	}
 }
 
 struct SettingsIconView_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		SettingsIconView(iconName: "bell")
-    }
+	}
 }
