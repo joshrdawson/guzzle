@@ -10,15 +10,12 @@ import SwiftUI
 struct AwardView: View {
 	let awardIcon: String
 	let awardName: String
-	let currentProgress: Double
-	let target: Double
+	let currentProgress: Float
+	let target: Float
 	
 	var body: some View {
 		
 		ZStack {
-//			Rectangle()
-//				.foregroundColor(.black)
-//				.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 			VStack {
 				ZStack {
 					Image(systemName: "hexagon.fill")
@@ -35,7 +32,7 @@ struct AwardView: View {
 						.font(.system(size: 12))
 						.frame(minHeight: 20)
 						.multilineTextAlignment(.center)
-					Text("\(String(format: "%.1f" , (currentProgress / target) * 100))%")
+					Text("\(String(format: "%.1f" , ((currentProgress / target) > 1 ? 1 : currentProgress / target) * 100))%")
 				}
 					.font(.system(size: 10))
 				.foregroundColor(.white)
