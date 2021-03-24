@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct CircularProgressBar: View {
+	var goal:Float
 	@Binding var progress:Float
 	var body: some View {
 		ZStack {
@@ -18,12 +19,12 @@ struct CircularProgressBar: View {
 				.foregroundColor(.blue)
 			
 			Circle()
-				.trim(from: 0.0, to: CGFloat(min(self.progress, 1.0)))
+				.trim(from: 0.0, to: CGFloat(min((progress / goal), 1.0)))
 				.stroke(style: StrokeStyle(lineWidth: 20.0, lineCap: .round, lineJoin: .round))
 				.foregroundColor(.blue)
 				.rotationEffect(Angle(degrees: 270.0))
 				.animation(.linear)
-			Text(String(format: "%.0f %%", min(self.progress, 1.0)*100.0))
+			Text(String(format: "%.0f %%", min((progress / goal), 1.0)*100.0))
 				.font(.largeTitle)
 				.bold()
 		}
@@ -32,6 +33,6 @@ struct CircularProgressBar: View {
 
 struct CircularProgressBar_Previews: PreviewProvider {
 	static var previews: some View {
-		CircularProgressBar(progress: Binding.constant(0.3))
+		CircularProgressBar(goal: 2, progress: Binding.constant(1.5))
 	}
 }

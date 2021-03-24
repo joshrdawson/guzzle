@@ -21,7 +21,7 @@ struct AwardView: View {
 					.shadow(radius: 3)
 					.foregroundColor(Color("awardBackground")).cornerRadius(55)
 				Image(systemName: awardIcon)
-					.foregroundColor(currentProgress >= target ? .yellow : .black)
+					.foregroundColor(currentProgress >= target ? .yellow : .white)
 					.font(.system(size: 50))
 			}
 			VStack(spacing: 5) {
@@ -39,6 +39,6 @@ struct AwardView: View {
 
 struct AwardView_Previews: PreviewProvider {
 	static var previews: some View {
-		AwardView(awardIcon: "rosette", awardName: "Download the app!", currentProgress: 15, target: 20)
+		AwardView(awardIcon: "rosette", awardName: "Download the app!", currentProgress: 15, target: 20).colorScheme(.dark)
 	}
 }

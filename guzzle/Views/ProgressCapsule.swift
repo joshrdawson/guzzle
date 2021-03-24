@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ProgressCapsule: View {
-	@Binding var target:Int
-	@Binding var progress:Float
+	var goal:Float
+	var progress:Float
     var body: some View {
 		VStack {
 			ZStack {
@@ -19,8 +19,8 @@ struct ProgressCapsule: View {
 					.shadow(radius: 2)
 				HStack {
 					Capsule()
-						.size(width: CGFloat(325 * progress) + 10, height: 15)
-						.frame(width: CGFloat(325 * progress), height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+						.size(width: CGFloat(progress <= goal ? 325 * (progress/goal) : 325) + 10, height: 15)
+						.frame(width: CGFloat(progress <= goal ? 325 * (progress/goal) : 325), height: 15, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
 						.foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
 						.shadow(radius: 2)
 					Spacer()
@@ -28,10 +28,10 @@ struct ProgressCapsule: View {
 			}
 			HStack {
 				Spacer()
-				Text("\(String(format: "%.1f", Float(target) * progress))L")
+				Text("\(String(format: "%.1f", progress))L")
 					.bold()
 				Spacer(minLength: 220)
-				Text("\(String(format: "%.1f", Float(target)))L")
+				Text("\(String(format: "%.1f", Float(goal)))L")
 					.bold()
 				Spacer()
 			}
@@ -42,6 +42,6 @@ struct ProgressCapsule: View {
 
 struct ProgressCapsule_Previews: PreviewProvider {
     static var previews: some View {
-		ProgressCapsule(target: Binding.constant(2), progress: Binding.constant(0.3))
+		ProgressCapsule(goal: 2.0, progress: 1.5)
     }
 }

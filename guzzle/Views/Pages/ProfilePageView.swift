@@ -15,6 +15,7 @@ struct ProfilePageView: View {
 	var TESTactivityLevel: ActivityLevel = .Average
 	
 	var TESTsuggestedGoal: Int = 3
+	var loaded: Bool = false
 	
 	enum ActivityLevel: String {
 		case Inactive
@@ -22,7 +23,7 @@ struct ProfilePageView: View {
 		case Average
 		case Active
 	}
-
+	
 	var body: some View {
 		VStack {
 			HStack {
@@ -33,7 +34,10 @@ struct ProfilePageView: View {
 					.padding(.horizontal, 30)
 					.padding(.top, 45)
 				Spacer()
+					.padding(.top, 45)
+					.padding(.horizontal, 30)
 			}
+			
 			VStack {
 				HStack {
 					Spacer()
@@ -69,8 +73,10 @@ struct ProfilePageView: View {
 				Spacer()
 			}
 		}
+
 	}
 }
+
 
 struct ProfilePageView_Previews: PreviewProvider {
 	static var previews: some View {

@@ -10,11 +10,12 @@ import SwiftUI
 struct DrinkTypeView: View {
 	let drinkType: String
 	let color: Color
+	@Binding var currentClicked: String
     var body: some View {
 		ZStack {
 			Rectangle()
 				.frame(width: 175, height: 75)
-				.foregroundColor(Color("awardBackground").opacity(0.5))
+				.foregroundColor(Color("awardBackground").opacity(currentClicked == drinkType ? 1 : 0.5))
 				.cornerRadius(20)
 				.shadow(radius: 3)
 			Button(action: {}, label: {
@@ -34,6 +35,7 @@ struct DrinkTypeView: View {
 
 struct DrinkTypeView_Previews: PreviewProvider {
     static var previews: some View {
-		DrinkTypeView(drinkType: "Water", color: .blue)
+		DrinkTypeView(drinkType: "Water", color: .blue, currentClicked: Binding.constant("Water"))
     }
 }
+
