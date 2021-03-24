@@ -10,6 +10,7 @@ import SwiftUI
 struct HomePageView: View {
 	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
 	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement>
+	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile>
 	@Environment(\.managedObjectContext) var moc
 	@State var todayProgress:Float = 0.0
 	var body: some View {
@@ -70,7 +71,6 @@ struct HomePageView: View {
 				}
 				// if there are no achievements (the first time the app is loaded), create the core data for all the achievements
 				if(achievements.isEmpty) {
-					print("no achievements")
 					for index in (0...3).reversed() {
 						let achievement = Achievement(context: self.moc)
 						achievement.id = Float(index)
@@ -101,6 +101,18 @@ struct HomePageView: View {
 					achievements[3].name = "Create a profile!"
 					
 					try? self.moc.save()
+					
+					// if there is no user profile, create one
+					if(profile.isEmpty) {
+						let profile = Profile(context: self.moc)
+						profile.suggestedGoal = ""
+						profile.activityLevel = "Average" // some values need to be populated for the suggested daily goal algorithm
+						profile.age = ""
+						profile.name = ""
+						profile.gender = "Male" // some values need to be populated for the suggested daily goal algorithm
+						profile.weight = ""
+						try? self.moc.save()
+					}
 					
 				}
 			} catch {

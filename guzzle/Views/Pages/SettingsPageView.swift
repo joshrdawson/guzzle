@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingsPageView: View {
 	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
+	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile>
 	@Environment(\.managedObjectContext) var moc
 	@State var dailyGoal: Double = 2
 	var body: some View {
@@ -43,7 +44,7 @@ struct SettingsPageView: View {
 							Slider(value: $dailyGoal, in: 1...10, step: 0.5)
 						}
 						HStack {
-							Text("Suggested Goal: 3L")
+							Text("Suggested Goal: \(profile[0].suggestedGoal!)L")
 								.font(.footnote)
 								.foregroundColor(.gray)
 							Spacer()
@@ -73,7 +74,7 @@ struct SettingsPageView: View {
 							.bold()
 							.font(.system(size: 37.5))
 							.padding(.horizontal, 30)
-							.padding(.top, 25)
+							.padding(.top, 15)
 							.foregroundColor(.white)
 						Spacer()
 					}
@@ -150,7 +151,7 @@ struct SettingsPageView: View {
 				Text("App created by Josh Dawson")
 					.font(.system(size: 17.5))
 					.foregroundColor(.gray)
-					.padding(.bottom, 40)
+					.padding(.bottom, 10)
 				Spacer()
 			}
 		}

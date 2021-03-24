@@ -12,8 +12,17 @@
         <attribute name="id" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="progress" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
     </entity>
+    <entity name="Profile" representedClassName="Profile" syncable="YES" codeGenerationType="class">
+        <attribute name="activityLevel" optional="YES" attributeType="String"/>
+        <attribute name="age" optional="YES" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="suggestedGoal" optional="YES" attributeType="String"/>
+        <attribute name="weight" optional="YES" attributeType="String"/>
+    </entity>
     <elements>
-        <element name="Intake" positionX="-63" positionY="-18" width="128" height="89"/>
         <element name="Achievement" positionX="-63" positionY="9" width="128" height="89"/>
+        <element name="Intake" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="Profile" positionX="-63" positionY="27" width="128" height="119"/>
     </elements>
 </model>

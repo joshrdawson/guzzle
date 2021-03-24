@@ -8,116 +8,141 @@
 import SwiftUI
 
 struct ProfilePageView: View {
-	var TESTname: String = "Joshua Dawson"
-	var TESTage: Int = 21
-	var TESTgender: String = "Male"
-	var TESTweight: Int = 80
-	var TESTactivityLevel: ActivityLevel = .Average
-	
-	var TESTsuggestedGoal: Int = 3
-	var loaded: Bool = false
-	
+	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile>
+	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement>
+	@Environment(\.managedObjectContext) var moc
 	var activityLevels = ["Inactive", "Light", "Average", "Active"]
-	
-	var suggestedGoal:Float = 3.0
+	var genders = ["Male", "Female", "Other"]
+	@State var suggestedGoal:String = ""
 	@State var name: String = ""
 	@State var age: String = ""
-	@State var gender: String = ""
+	@State var gender: String = "Male"
 	@State var weight: String = ""
-	@State var activityLevel: String = ""
+	@State var activityLevel: String = "Average"
 	
-	enum ActivityLevel: String {
-		case Inactive
-		case Light
-		case Average
-		case Active
-	}
 	
 	var body: some View {
-		ZStack {
-						Rectangle()
-							.foregroundColor(.black)
-							.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+		VStack {
+			HStack {
+				Text("Me")
+					.font(.system(size: 40))
+					.font(.largeTitle)
+					.bold()
+					.padding(.horizontal, 30)
+					.foregroundColor(.white)
+				Spacer()
+			}
+			.padding(.top, 45)
+			
 			VStack {
 				HStack {
-					Text("Me")
-						.font(.system(size: 40))
-						.font(.largeTitle)
-						.bold()
-						.padding(.horizontal, 30)
-						.foregroundColor(.white)
+					Spacer()
+					Image(gender == "Female" ? "avatar-female" : "avatar-male")
+						.resizable()
+						.aspectRatio(contentMode: .fit)
+						.padding(.horizontal, 20)
+						.frame(width: 165, height: 165)
+						.shadow(radius: 5)
 					Spacer()
 				}
-				.padding(.top, 45)
-				
-				VStack {
-					HStack {
-						Spacer()
-						Image(TESTgender == "Male" ? "avatar-male" : "avatar-female")
-							.resizable()
-							.aspectRatio(contentMode: .fit)
-							.padding(.horizontal, 20)
-							.frame(width: 250)
-							.shadow(radius: 5)
-						Spacer()
-					}
-					HStack {
+				HStack {
+					VStack(alignment: .leading, spacing: 10) {
 						VStack(alignment: .leading, spacing: 10) {
-							VStack(alignment: .leading, spacing: 10) {
-//								HStack {
-//									Text("Name: ")
-//									TextField("Enter name", text: $name)
-//								}
-//
-//								HStack {
-//									Text("Age: ")
-//									TextField("Enter age", text: $age)
-//								}
-//
-//								HStack {
-//									Text("Gender: ")
-//									TextField("Enter gender", text: $gender)
-//								}
-//
-//								HStack {
-//									Text("Weight (kg): ")
-//									TextField("Enter weight", text: $weight)
-//								}
-//
-//								HStack {
-//									Text("Activity Level: ")
-//									Picker("Enter activity level", selection: $activityLevel) {
-//										ForEach(activityLevels, id: \.self) {
-//											Text($0)
-//										}
-//									}
-//									.frame(width: 150)
-//									.clipped()
-//								}
-				
-								
-								Text("Suggested Goal: \(String(format: "%.1f", Float(suggestedGoal)))L")
-									.bold()
-									.font(.system(size: 30))
-									.padding(.top, 20)
+							HStack {
+								Text("Name: ")
+								TextField("Enter name", text: $name)
 							}
-							.foregroundColor(.white)
-							Text("Note: The suggested goal is based on your age, gender, weight and activity level. Actual reccomended daily intake may vary.")
-								.font(.system(size: 15))
-								.frame(minHeight: 75)
-								.foregroundColor(.gray)
+							
+							HStack {
+								Text("Age: ")
+								TextField("Enter age", text: $age)
+							}
+							
+							HStack {
+								Text("Gender: ")
+								Picker("Enter gender:", selection: $gender) {
+									ForEach(genders, id: \.self) {
+										Text($0)
+									}
+								}
+								.frame(width: 150, height: 50)
+								.clipped()
+								.cornerRadius(50)
+							}
+							
+							HStack {
+								Text("Weight (kg): ")
+								TextField("Enter weight", text: $weight)
+							}
+							
+							HStack {
+								Text("Activity Level: ")
+								Picker("Enter activity level", selection: $activityLevel) {
+									ForEach(activityLevels, id: \.self) {
+										Text($0)
+									}
+								}
+								.frame(width: 150, height: 50)
+								.clipped()
+								.cornerRadius(50)
+							}
+							
+							HStack {
+								Button(action: {
+									do {
+										profile[0].name = name
+										profile[0].age = age
+										profile[0].gender = gender
+										profile[0].weight = weight
+										profile[0].activityLevel = activityLevel
+										try? self.moc.save()
+										suggestedGoal = String(format: "%.1f", calculateSuggestedGoal(person: profile))
+										profile[0].suggestedGoal = suggestedGoal
+										achievements[3].progress = 1
+										try? self.moc.save()
+									} catch {
+										print("error saving profile")
+									}
+								}, label: {
+									Text("Save")
+										.font(.system(size: 20))
+										.foregroundColor(.blue)
+								})
+								.padding(.top, 10)
+								Spacer()
+							}
+							
+							
+							Text("Suggested Goal: \(suggestedGoal == "" ? "2.5" : suggestedGoal)L")
+								.bold()
+								.font(.system(size: 30))
+								.padding(.top, 20)
 						}
-						.font(.system(size: 25))
-						.padding(.top, 15)
-						.padding(.horizontal, 25)
-						Spacer()
+						.foregroundColor(.white)
+						Text("Note: The suggested goal is based on your age, gender, weight and activity level. Actual reccomended daily intake may vary.")
+							.font(.system(size: 15))
+							.frame(minHeight: 75)
+							.foregroundColor(.gray)
 					}
+					.font(.system(size: 25))
+					.padding(.top, 15)
+					.padding(.horizontal, 25)
 					Spacer()
 				}
+				Spacer()
 			}
 		}
-		
+		.onAppear(perform: {
+			// load newest saved values 
+			name = profile[0].name!
+			age = profile[0].age!
+			suggestedGoal = profile[0].suggestedGoal!
+			gender = profile[0].gender!
+			weight = profile[0].weight!
+			activityLevel = profile[0].activityLevel!
+		})
 	}
+	
 }
 
 
@@ -125,4 +150,37 @@ struct ProfilePageView_Previews: PreviewProvider {
 	static var previews: some View {
 		ProfilePageView()
 	}
+}
+
+func calculateSuggestedGoal(person: FetchedResults<Profile>) -> Float {
+	let user = person[0]
+	
+	if(user.name != "") {
+		var total: Float = 0
+		
+		if(user.gender == "Male") {
+			total += 3.5
+		} else {
+			total += 3
+		}
+		
+		switch user.activityLevel {
+		case "Inactive":
+			total -= 0.5
+		case "Light":
+			total -= 0.25
+		case "Average":
+			total += 0.25
+		case "Active":
+			total += 0.5
+		case .none:
+			break
+		case .some(_):
+			break
+		}
+		return total
+	}
+	return 2.5
+	
+	
 }
