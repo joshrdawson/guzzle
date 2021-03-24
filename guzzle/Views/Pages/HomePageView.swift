@@ -64,7 +64,7 @@ struct HomePageView: View {
 						let day = Intake(context: self.moc)
 						day.id = Float(index)
 						day.progress = 0
-						day.goal = 2
+						day.goal = 2.5
 						day.date = Date()
 						try? self.moc.save()
 					}

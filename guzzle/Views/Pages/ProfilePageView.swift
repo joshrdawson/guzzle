@@ -41,42 +41,57 @@ struct ProfilePageView: View {
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.padding(.horizontal, 20)
-						.frame(width: 165, height: 165)
+						.frame(width: 150, height: 150)
 						.shadow(radius: 5)
 					Spacer()
 				}
 				HStack {
-					VStack(alignment: .leading, spacing: 10) {
+					VStack {
 						VStack(alignment: .leading, spacing: 10) {
-							HStack {
-								Text("Name: ")
-								TextField("Enter name", text: $name)
-							}
-							
-							HStack {
-								Text("Age: ")
-								TextField("Enter age", text: $age)
-							}
-							
-							HStack {
-								Text("Gender: ")
-								Picker("Enter gender:", selection: $gender) {
-									ForEach(genders, id: \.self) {
-										Text($0)
-									}
+							VStack(alignment: .leading, spacing: 10) {
+								HStack {
+									Text("Name: ")
+										.font(.system(size: 20))
+									TextField("Enter name", text: $name)
 								}
-								.frame(width: 150, height: 50)
-								.clipped()
-								.cornerRadius(50)
+								
+								Divider()
+								
+								HStack {
+									Text("Age: ")
+										.font(.system(size: 20))
+									TextField("Enter age", text: $age)
+								}
+								
+								Divider()
+								
+								HStack {
+									Text("Gender: ")
+										.font(.system(size: 20))
+									Picker("Enter gender:", selection: $gender) {
+										ForEach(genders, id: \.self) {
+											Text($0)
+										}
+									}
+									.frame(width: 150, height: 50)
+									.clipped()
+									.cornerRadius(50)
+								}
+								
+								Divider()
 							}
 							
 							HStack {
 								Text("Weight (kg): ")
+									.font(.system(size: 20))
 								TextField("Enter weight", text: $weight)
 							}
 							
+							Divider()
+							
 							HStack {
 								Text("Activity Level: ")
+									.font(.system(size: 20))
 								Picker("Enter activity level", selection: $activityLevel) {
 									ForEach(activityLevels, id: \.self) {
 										Text($0)
@@ -96,7 +111,7 @@ struct ProfilePageView: View {
 										profile[0].weight = weight
 										profile[0].activityLevel = activityLevel
 										try? self.moc.save()
-										suggestedGoal = String(format: "%.1f", calculateSuggestedGoal(person: profile))
+										suggestedGoal = String(format: "%.2f", calculateSuggestedGoal(person: profile))
 										profile[0].suggestedGoal = suggestedGoal
 										achievements[3].progress = 1
 										try? self.moc.save()
@@ -115,17 +130,17 @@ struct ProfilePageView: View {
 							
 							Text("Suggested Goal: \(suggestedGoal == "" ? "2.5" : suggestedGoal)L")
 								.bold()
-								.font(.system(size: 30))
-								.padding(.top, 20)
+								.font(.system(size: 25))
+								.padding(.top, 5)
 						}
 						.foregroundColor(.white)
 						Text("Note: The suggested goal is based on your age, gender, weight and activity level. Actual reccomended daily intake may vary.")
-							.font(.system(size: 15))
-							.frame(minHeight: 75)
+							.font(.system(size: 10))
+							.frame(minHeight: 35)
 							.foregroundColor(.gray)
 					}
 					.font(.system(size: 25))
-					.padding(.top, 15)
+//					.padding(.top, 15)
 					.padding(.horizontal, 25)
 					Spacer()
 				}

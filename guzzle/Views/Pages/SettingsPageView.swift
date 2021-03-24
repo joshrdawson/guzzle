@@ -36,15 +36,15 @@ struct SettingsPageView: View {
 					}
 					VStack {
 						HStack {
-							Text("Daily Goal: \(String(format: "%.1f", dailyGoal))L")
+							Text("Daily Goal: \(String(format: "%.2f", dailyGoal))L")
 								.font(.system(size: 30))
 							Spacer()
 						}
 						HStack {
-							Slider(value: $dailyGoal, in: 1...10, step: 0.5)
+							Slider(value: $dailyGoal, in: 1...10, step: 0.25)
 						}
 						HStack {
-							Text("Suggested Goal: \(profile[0].suggestedGoal!)L")
+							Text("Suggested Goal: \(profile[0].suggestedGoal == "" ? "2.5" : profile[0].suggestedGoal!)L")
 								.font(.footnote)
 								.foregroundColor(.gray)
 							Spacer()
@@ -79,22 +79,6 @@ struct SettingsPageView: View {
 						Spacer()
 					}
 					VStack {
-						HStack {
-							SettingsIconView(iconName: "bell")
-								.padding(.leading, 50)
-							Spacer()
-							Toggle(isOn: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Is On@*/.constant(true)/*@END_MENU_TOKEN@*/) {
-								Text("Reminders")
-									.font(.system(size: 25))
-									.foregroundColor(.white)
-							}
-							.padding(.trailing, 15)
-						}
-						
-						Divider()
-							.padding(.horizontal, 15)
-							.padding([.top, .bottom], 5)
-						
 						HStack {
 							SettingsIconView(iconName: "rosette")
 								.padding(.leading, 50)
@@ -145,6 +129,7 @@ struct SettingsPageView: View {
 							.padding([.top, .bottom], 5)
 						
 					}
+					.padding(.trailing, 15)
 				}
 				
 				Spacer()
