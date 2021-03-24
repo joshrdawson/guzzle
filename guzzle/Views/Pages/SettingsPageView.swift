@@ -14,7 +14,6 @@ struct SettingsPageView: View {
 	@Environment(\.managedObjectContext) var moc
 	@State var dailyGoal: Double = 2
 	@State var toggleAchivements: Bool = true
-	@State var toggleHealthKitSync: Bool = true
 	@State var toggleSuggestedGoal: Bool = true
 	var body: some View {
 		VStack {
@@ -87,23 +86,6 @@ struct SettingsPageView: View {
 							.padding([.top, .bottom], 5)
 						
 						HStack {
-							SettingsIconView(iconName: "arrow.up.heart")
-								.padding(.leading, 50)
-							Spacer()
-							Toggle(isOn: $toggleHealthKitSync) {
-								Text("Health Kit Sync")
-									.font(.system(size: 25))
-									.foregroundColor(.white)
-							}
-							.padding(.trailing, 15)
-						}
-						
-						
-						Divider()
-							.padding(.horizontal, 15)
-							.padding([.top, .bottom], 5)
-						
-						HStack {
 							SettingsIconView(iconName: "target")
 								.padding(.leading, 50)
 							Spacer()
@@ -120,12 +102,27 @@ struct SettingsPageView: View {
 							.padding([.top, .bottom], 5)
 						
 						HStack {
+							SettingsIconView(iconName: "ruler")
+								.padding(.leading, 50)
+							Text("Units")
+								.font(.system(size: 25))
+							Spacer()
+							Text("L, Kg")
+								.padding(.trailing, 15)
+								.font(.system(size: 20))
+								.foregroundColor(.gray)
+						}
+						
+						Divider()
+							.padding(.horizontal, 15)
+							.padding([.top, .bottom], 5)
+						
+						HStack {
 							Button(action: {
 								do {
 									intakes[0].goal = Float(dailyGoal)
 									try self.moc.save()
 									settings[0].achivements = toggleAchivements
-									settings[0].healthkitSync = toggleHealthKitSync
 									settings[0].suggestedGoal = toggleSuggestedGoal
 									try self.moc.save()
 								} catch {
@@ -156,7 +153,6 @@ struct SettingsPageView: View {
 			// load up to date data
 			dailyGoal = Double(intakes[0].goal)
 			toggleAchivements = settings[0].achivements
-			toggleHealthKitSync = settings[0].healthkitSync
 			toggleSuggestedGoal = settings[0].suggestedGoal
 		})
 	}

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct HomePageView: View {
 	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
@@ -121,7 +122,6 @@ struct HomePageView: View {
 				if(settings.isEmpty) {
 					let defaultSettings = Settings(context: self.moc)
 					defaultSettings.achivements = true
-					defaultSettings.healthkitSync = true
 					defaultSettings.suggestedGoal = true
 					try self.moc.save()
 				}
