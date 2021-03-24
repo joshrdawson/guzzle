@@ -48,7 +48,7 @@ struct SettingsPageView: View {
 							Slider(value: $dailyGoal, in: 1...10, step: 0.25)
 						}
 						HStack {
-							Text(settings[0].suggestedGoal == true ? "Suggested Goal: \(profile[0].suggestedGoal == "" ? "2.5" : profile[0].suggestedGoal!)L" : "")
+							Text(settings[0].suggestedGoal ? "Suggested Goal: \(profile[0].suggestedGoal == "" ? "2.5" : profile[0].suggestedGoal!)L" : "")
 								.font(.footnote)
 								.foregroundColor(.gray)
 							Spacer()

@@ -123,7 +123,7 @@ struct HomePageView: View {
 					defaultSettings.achivements = true
 					defaultSettings.healthkitSync = true
 					defaultSettings.suggestedGoal = true
-					try? self.moc.save()
+					try self.moc.save()
 				}
 			} catch {
 				print("error initialising core data")

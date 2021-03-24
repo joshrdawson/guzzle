@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfilePageView: View {
 	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile>
 	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement>
+	@FetchRequest(entity: Settings.entity(), sortDescriptors: []) var settings: FetchedResults<Settings>
 	@Environment(\.managedObjectContext) var moc
 	var activityLevels = ["Inactive", "Light", "Average", "Active"]
 	var genders = ["Male", "Female", "Other"]
@@ -128,13 +129,13 @@ struct ProfilePageView: View {
 							}
 							
 							
-							Text("Suggested Goal: \(suggestedGoal == "" ? "2.5" : suggestedGoal)L")
+							Text(settings[0].suggestedGoal ? "Suggested Goal: \(suggestedGoal == "" ? "2.5" : suggestedGoal)L" : "")
 								.bold()
 								.font(.system(size: 25))
 								.padding(.top, 5)
 						}
 						.foregroundColor(.white)
-						Text("Note: The suggested goal is based on your age, gender, weight and activity level. Actual reccomended daily intake may vary.")
+						Text(settings[0].suggestedGoal ? "Note: The suggested goal is based on your age, gender, weight and activity level. Actual reccomended daily intake may vary." : "")
 							.font(.system(size: 10))
 							.frame(minHeight: 35)
 							.foregroundColor(.gray)
