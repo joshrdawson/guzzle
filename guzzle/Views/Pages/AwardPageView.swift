@@ -17,11 +17,12 @@ struct AwardPageView: View {
 					.bold()
 					.padding(.horizontal, 30)
 					.padding(.top, 45)
+					.foregroundColor(.white)
 				Spacer()
 			}
 			VStack {
 				HStack {
-					AwardView(awardIcon: "7.circle", awardName: "Log your water intake 7 days in a row!", currentProgress: 5, target: 10)
+					AwardView(awardIcon: "7.circle", awardName: "Check your achievements!", currentProgress: 5, target: 10)
 					AwardView(awardIcon: "flame.fill", awardName: "Smash your target 2 days in a row!", currentProgress: 3, target: 10)
 					AwardView(awardIcon: "2.circle", awardName: "Smash your daily goal by over double!", currentProgress: 9, target: 10)
 				}

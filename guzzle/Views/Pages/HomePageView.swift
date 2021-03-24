@@ -13,30 +13,28 @@ struct HomePageView: View {
 	@Environment(\.managedObjectContext) var moc
 	@State var todayProgress:Float = 0.0
 	var body: some View {
-		ZStack {
-			//			Rectangle()
-			//				.foregroundColor(.black)
-			//				.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 			VStack {
 				HStack {
-					Text("guzzle.")
+					Text("guzzle")
 						.font(.system(size: 40))
 						.font(.largeTitle)
 						.bold()
 						.padding(.horizontal, 30)
-						.padding(.top, 20)
+						.foregroundColor(.white)
 					Spacer()
 				}
+				.padding(.top, 45)
+				
 				VStack {
 					HStack {
 						Text("Today")
 							.font(.system(size: 37.5))
 							.bold()
 							.padding(.horizontal, 35)
-							.padding(.top, 30)
+							.foregroundColor(.white)
 						Spacer()
 					}
-					CircularProgressBar(goal: intakes[0].goal, progress: $todayProgress)
+					CircularProgressBar(goal: intakes.isEmpty ? 2 : intakes[0].goal, progress: $todayProgress)
 						.frame(width: 130, height: 130, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
 					HStack {
 						Text("This week")
@@ -45,32 +43,39 @@ struct HomePageView: View {
 							.padding(.horizontal, 35)
 							.padding(.top, 15)
 							.frame(width: 230, height: 35)
+							.foregroundColor(.white)
 						Spacer()
 					}
-					ProgressCapsule(goal: intakes[1].goal, progress: intakes[1].progress)
-					ProgressCapsule(goal: intakes[2].goal,progress: intakes[2].progress)
-					ProgressCapsule(goal: intakes[3].goal,progress: intakes[3].progress)
-					ProgressCapsule(goal: intakes[4].goal,progress: intakes[4].progress)
-					ProgressCapsule(goal: intakes[5].goal,progress: intakes[5].progress)
-					ProgressCapsule(goal: intakes[6].goal,progress: intakes[6].progress)
-					//					List {
-					//						ForEach(intakes, id: \.id) { intake in
-					//							Text("\(intake.progress)")
-					//						}
-					//					}
+					ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[1].goal, progress: intakes.isEmpty ? 3 : intakes[1].progress)
+					ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[2].goal, progress: intakes.isEmpty ? 3 : intakes[2].progress)
+					ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[3].goal, progress: intakes.isEmpty ? 3 : intakes[3].progress)
+					ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[4].goal, progress: intakes.isEmpty ? 3 : intakes[4].progress)
+					ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[5].goal, progress: intakes.isEmpty ? 3 : intakes[5].progress)
 				}
+				.padding(.top, 15)
+				Spacer()
 			}
-		}
 		.onAppear(perform: {
-			print("NEW HOME")
-			for intake in intakes {
-				print(intake.id)
+			do {
+				if(intakes.isEmpty) {
+					for index in 0...5 {
+						let day = Intake(context: self.moc)
+						day.id = Float(index)
+						day.progress = 0
+						day.goal = 2
+						day.date = Date()
+						try? self.moc.save()
+					}
+				}
+			} catch {
+				print("error initialising intakes")
 			}
+			
+			
+			// if its a new day, shift the intakes along
 			let currentDate = Date()
 			if(!isSameDay(dateX: currentDate, dateY: intakes[0].date!)) {
-				print("not same")
-				for index in (1...6).reversed() {
-//					print(intakes[index-1].id, intakes[index-1].date!, intakes[index-1].progress, intakes[index-1].goal)
+				for index in (1...5).reversed() {
 					intakes[index].id = intakes[index-1].id + 1
 					intakes[index].date = intakes[index-1].date
 					intakes[index].progress = intakes[index-1].progress
@@ -82,7 +87,7 @@ struct HomePageView: View {
 				intakes[0].goal = 2
 				try? self.moc.save()
 			}
-			todayProgress = intakes[0].progress
+			todayProgress = intakes[0].progress // ensure todayProgress is the latest progress
 		})
 	}
 }

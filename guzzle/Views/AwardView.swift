@@ -14,26 +14,34 @@ struct AwardView: View {
 	let target: Double
 	
 	var body: some View {
-		VStack {
-			ZStack {
-				Image(systemName: "hexagon.fill")
-					.font(.system(size: 80))
-					.shadow(radius: 3)
-					.foregroundColor(Color("awardBackground")).cornerRadius(55)
-				Image(systemName: awardIcon)
-					.foregroundColor(currentProgress >= target ? .yellow : .white)
-					.font(.system(size: 50))
+		
+		ZStack {
+//			Rectangle()
+//				.foregroundColor(.black)
+//				.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+			VStack {
+				ZStack {
+					Image(systemName: "hexagon.fill")
+						.font(.system(size: 80))
+						.shadow(radius: 3)
+						.foregroundColor(Color("awardBackground")).cornerRadius(55)
+					Image(systemName: awardIcon)
+						.foregroundColor(currentProgress >= target ? .yellow : Color("pageBackground"))
+						.font(.system(size: 50))
+						.shadow(radius: 1)
+				}
+				VStack(spacing: 3) {
+					Text(awardName)
+						.font(.system(size: 12))
+						.frame(minHeight: 20)
+						.multilineTextAlignment(.center)
+					Text("\(String(format: "%.1f" , (currentProgress / target) * 100))%")
+				}
+					.font(.system(size: 10))
+				.foregroundColor(.white)
 			}
-			VStack(spacing: 5) {
-				Text(awardName)
-					.font(.system(size: 15))
-					.frame(minHeight: 20)
-					.multilineTextAlignment(.center)
-				Text("\(String(format: "%.1f" , (currentProgress / target) * 100))%")
-			}
-				.font(.system(size: 10))
+			.frame(width: 115, height: 275)
 		}
-		.frame(width: 125, height: 225)
 	}
 }
 

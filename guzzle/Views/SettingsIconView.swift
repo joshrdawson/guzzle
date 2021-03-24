@@ -20,6 +20,7 @@ struct SettingsIconView: View {
 				.resizable()
 				.aspectRatio(contentMode: .fit)
 				.frame(width: 30, height: 30, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+				.foregroundColor(.white)
 		}
 		.shadow(radius: 2)
 	}

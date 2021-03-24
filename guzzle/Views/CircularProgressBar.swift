@@ -27,6 +27,7 @@ struct CircularProgressBar: View {
 			Text(String(format: "%.0f %%", min((progress / goal), 1.0)*100.0))
 				.font(.largeTitle)
 				.bold()
+				.foregroundColor(.white)
 		}
 	}
 }

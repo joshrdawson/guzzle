@@ -8,7 +8,7 @@
 import SwiftUI
 
 class ViewRouter: ObservableObject {
-	@Published var currentTab: Page = .me
+	@Published var currentTab: Page = .home
 }
 
 enum Page {

@@ -14,9 +14,6 @@ struct AddDrinkPageView: View {
 	@State var amount: String = ""
 	var body: some View {
 		ZStack {
-			Rectangle()
-				.foregroundColor(.black)
-				.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
 			VStack {
 				HStack {
 					Text("Add Drink")
@@ -25,6 +22,7 @@ struct AddDrinkPageView: View {
 						.bold()
 						.padding(.horizontal, 30)
 						.padding(.top, 45)
+						.foregroundColor(.white)
 					Spacer()
 				}
 				VStack {
@@ -95,7 +93,7 @@ struct AddDrinkPageView: View {
 							})
 						}
 					}
-					.padding(.bottom, 35)
+					.padding(.bottom, 15)
 					ZStack {
 						Capsule()
 							.size(width: 350, height: 55)
@@ -119,13 +117,11 @@ struct AddDrinkPageView: View {
 									.font(.system(size: 22))
 									.padding(.trailing, 200)
 									.shadow(radius: 2)
+									.foregroundColor(.white)
 							}
 						}
 					}
-//					Text(currentClicked)
-//						.foregroundColor(.white)
-//					Text(amount)
-//						.foregroundColor(.white)
+					
 					Button(action: {
 							let unwrapped = Float(amount) ?? 0
 							intakes[0].progress += unwrapped / 1000
@@ -144,7 +140,7 @@ struct AddDrinkPageView: View {
 								.padding(.trailing, 223)
 								.foregroundColor(.white)
 						}
-						.padding(.top, 5)
+						.padding(.top, 10)
 					})
 					Spacer()
 				}

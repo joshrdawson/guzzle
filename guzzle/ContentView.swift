@@ -10,8 +10,6 @@ import SwiftUI
 struct ContentView: View {
 	@StateObject var viewRouter: ViewRouter
 	@State var todayProgress: Float
-	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
-	@Environment(\.managedObjectContext) var moc
 	var body: some View {
 		ZStack {
 			Rectangle()
@@ -66,23 +64,6 @@ struct ContentView: View {
 				.shadow(radius: 3)
 			}
 			.edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-			.onAppear(perform: {
-				print("loaded")
-				do {
-					if(intakes.count != 7) {
-						for index in 0...6 {
-							let day = Intake(context: self.moc)
-							day.id = Float(index)
-							day.progress = 0
-							day.goal = 2
-							day.date = Date()
-							try? self.moc.save()
-						}
-					}
-				} catch {
-					print("error")
-				}
-			})
 		}
 	}
 }
@@ -132,3 +113,5 @@ struct PlusBarItem: View {
 		
 	}
 }
+
+

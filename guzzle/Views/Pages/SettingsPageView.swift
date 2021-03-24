@@ -18,6 +18,7 @@ struct SettingsPageView: View {
 					.bold()
 					.padding(.horizontal, 30)
 					.padding(.top, 45)
+					.foregroundColor(.white)
 				Spacer()
 			}
 			VStack {
@@ -46,6 +47,7 @@ struct SettingsPageView: View {
 					.padding(.horizontal, 50)
 					.padding(.top, 10)
 				}
+				.foregroundColor(.white)
 				
 				VStack {
 					HStack {
@@ -54,6 +56,7 @@ struct SettingsPageView: View {
 							.font(.system(size: 37.5))
 							.padding(.horizontal, 30)
 							.padding(.top, 25)
+							.foregroundColor(.white)
 						Spacer()
 					}
 					VStack {
@@ -64,6 +67,7 @@ struct SettingsPageView: View {
 							Toggle(isOn: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Is On@*/.constant(true)/*@END_MENU_TOKEN@*/) {
 								Text("Reminders")
 									.font(.system(size: 25))
+									.foregroundColor(.white)
 							}
 							.padding(.trailing, 15)
 						}
@@ -79,6 +83,7 @@ struct SettingsPageView: View {
 							Toggle(isOn: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Is On@*/.constant(true)/*@END_MENU_TOKEN@*/) {
 								Text("Achievements")
 									.font(.system(size: 25))
+									.foregroundColor(.white)
 							}
 							.padding(.trailing, 15)
 						}
@@ -92,6 +97,7 @@ struct SettingsPageView: View {
 								.padding(.leading, 50)
 							Text("Units")
 								.font(.system(size: 25))
+								.foregroundColor(.white)
 							Spacer()
 							Text("L, Kg")
 								.padding(.trailing, 15)
@@ -110,6 +116,7 @@ struct SettingsPageView: View {
 							Toggle(isOn: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Is On@*/.constant(true)/*@END_MENU_TOKEN@*/) {
 								Text("Health Kit Sync")
 									.font(.system(size: 25))
+									.foregroundColor(.white)
 							}
 							.padding(.trailing, 15)
 						}

@@ -32,11 +32,10 @@ struct ProfilePageView: View {
 					.font(.largeTitle)
 					.bold()
 					.padding(.horizontal, 30)
-					.padding(.top, 45)
+					.foregroundColor(.white)
 				Spacer()
-					.padding(.top, 45)
-					.padding(.horizontal, 30)
 			}
+			.padding(.top, 45)
 			
 			VStack {
 				HStack {
@@ -51,17 +50,20 @@ struct ProfilePageView: View {
 				}
 				HStack {
 					VStack(alignment: .leading, spacing: 10) {
-						Text("Name: \(TESTname)")
-						Text("Age: \(TESTage) years old")
-						Text("Gender: \(TESTgender)")
-						Text("Weight: \(TESTweight)kg")
-						Text("Activity Level: \(TESTactivityLevel.rawValue)")
-						Text("Suggested Goal: \(TESTsuggestedGoal)L")
-							.bold()
-							.font(.system(size: 30))
-							.padding(.top, 20)
+						VStack(alignment: .leading, spacing: 10) {
+							Text("Name: \(TESTname)")
+							Text("Age: \(TESTage) years old")
+							Text("Gender: \(TESTgender)")
+							Text("Weight: \(TESTweight)kg")
+							Text("Activity Level: \(TESTactivityLevel.rawValue)")
+							Text("Suggested Goal: \(TESTsuggestedGoal)L")
+								.bold()
+								.font(.system(size: 30))
+								.padding(.top, 20)
+						}
+						.foregroundColor(.white)
 						Text("Note: The suggested goal is based on your age, gender, weight, activity level and weather. Actual reccomended daily intake may vary.")
-							.font(.body)
+							.font(.system(size: 15))
 							.frame(minHeight: 75)
 							.foregroundColor(.gray)
 					}
