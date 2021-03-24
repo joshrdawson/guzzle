@@ -38,18 +38,7 @@ struct AwardPageView: View {
 			}
 		}
 		.onAppear(perform: {
-			// update any achievments which may have changed
-			// achivement 2 - smash your goal by over double
-			if(achievements[1].progress < achievements[1].goal) { // if achicement not achieved, then update. This stops you having to earn achievements every day
-				achievements[1].goal = intakes[0].goal * 2
-				achievements[1].progress = intakes[0].progress
-			}
-			
-			//achievement 3 - smash your goal by over triple
-			if(achievements[2].progress < achievements[2].goal) {
-				achievements[2].goal = intakes[0].goal * 3
-				achievements[2].progress = intakes[0].progress
-			}
+
 		})
 	}
 }

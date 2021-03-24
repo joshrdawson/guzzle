@@ -34,7 +34,7 @@ struct HomePageView: View {
 						.foregroundColor(.white)
 					Spacer()
 				}
-				CircularProgressBar(goal: intakes.isEmpty ? 2 : intakes[0].goal, progress: $todayProgress)
+				CircularProgressBar(goal: intakes.isEmpty ? 2 : intakes[0].goal, progress: intakes.isEmpty ? 0 : intakes[0].progress)
 					.frame(width: 130, height: 130, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
 				HStack {
 					Text("This week")
@@ -119,7 +119,7 @@ struct HomePageView: View {
 				intakes[0].id = 0
 				intakes[0].date = Date()
 				intakes[0].progress = 0
-				intakes[0].goal = 2
+				intakes[0].goal = Float(intakes[1].goal)
 				try? self.moc.save()
 			}
 			todayProgress = intakes[0].progress // ensure todayProgress is the latest progress

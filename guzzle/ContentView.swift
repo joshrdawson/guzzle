@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
 	@StateObject var viewRouter: ViewRouter
-	@State var todayProgress: Float
+	@State var dailyGoal: Double = 2.0
 	var body: some View {
 		ZStack {
 			Rectangle()
@@ -34,7 +34,7 @@ struct ContentView: View {
 					case .awards:
 						AwardPageView()
 					case .settings:
-						SettingsPageView(dailyGoal: Binding.constant(2))
+						SettingsPageView()
 					case .add:
 						AddDrinkPageView()
 					}
@@ -70,7 +70,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
 	static var previews: some View {
-		ContentView(viewRouter: ViewRouter(), todayProgress: 0.1).colorScheme(.dark)
+		ContentView(viewRouter: ViewRouter()).colorScheme(.dark)
 	}
 }
 

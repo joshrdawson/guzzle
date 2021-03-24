@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct SettingsPageView: View {
-	@Binding var dailyGoal: Float
+	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
+	@Environment(\.managedObjectContext) var moc
+	@State var dailyGoal: Double = 2
 	var body: some View {
 		VStack {
 			HStack {
@@ -38,6 +40,9 @@ struct SettingsPageView: View {
 							Spacer()
 						}
 						HStack {
+							Slider(value: $dailyGoal, in: 1...10, step: 0.5)
+						}
+						HStack {
 							Text("Suggested Goal: 3L")
 								.font(.footnote)
 								.foregroundColor(.gray)
@@ -48,6 +53,19 @@ struct SettingsPageView: View {
 					.padding(.top, 10)
 				}
 				.foregroundColor(.white)
+				
+				HStack {
+					Button(action: {
+						intakes[0].goal = Float(dailyGoal)
+						try? self.moc.save()
+					}, label: {
+						Text("Save")
+							.font(.system(size: 20))
+					})
+					.padding(.leading, 50)
+					.padding(.top, 10)
+					Spacer()
+				}
 				
 				VStack {
 					HStack {
@@ -127,6 +145,7 @@ struct SettingsPageView: View {
 						
 					}
 				}
+				
 				Spacer()
 				Text("App created by Josh Dawson")
 					.font(.system(size: 17.5))
@@ -135,11 +154,14 @@ struct SettingsPageView: View {
 				Spacer()
 			}
 		}
+		.onAppear(perform: {
+			dailyGoal = Double(intakes[0].goal)
+		})
 	}
 }
 
 struct SettingsPageView_Previews: PreviewProvider {
 	static var previews: some View {
-		SettingsPageView(dailyGoal: Binding.constant(2))
+		SettingsPageView()
 	}
 }

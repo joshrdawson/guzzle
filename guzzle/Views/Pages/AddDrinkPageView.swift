@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddDrinkPageView: View {
+	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement>
 	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
 	@Environment(\.managedObjectContext) var moc
 	@State var currentClicked: String = ""
@@ -123,25 +124,43 @@ struct AddDrinkPageView: View {
 					}
 					
 					Button(action: {
+						do {
 							let unwrapped = Float(amount) ?? 0
 							intakes[0].progress += unwrapped / 1000
 							try? self.moc.save()
 							hideKeypad()
 							amount = ""
+							// update any achievments which may have changed from adding a drink
+							// achivement 2 - smash your goal by over double
+							if(achievements[1].progress < achievements[1].goal) { // if achicement not achieved, then update. This stops you having to earn achievements every day
+								achievements[1].goal = intakes[0].goal * 2
+								achievements[1].progress = intakes[0].progress
+							}
+							
+							//achievement 3 - smash your goal by over triple
+							if(achievements[2].progress < achievements[2].goal) {
+								achievements[2].goal = intakes[0].goal * 3
+								achievements[2].progress = intakes[0].progress
+							}
+							try? moc.save()
+						} catch {
+							print("error adding drink")
+						}
 					}, label: {
 						ZStack {
 							Capsule()
 								.size(width: 125, height: 55)
 								.frame(width: 125, height: 55, alignment: .leading)
-								.padding(.trailing, 225)
+								
 								.foregroundColor(.blue)
 							Text("Add")
 								.font(.system(size: 25))
-								.padding(.trailing, 223)
 								.foregroundColor(.white)
 						}
 						.padding(.top, 10)
 					})
+					.padding(.trailing, 225)
+					.frame(width: 150)
 					Spacer()
 				}
 				.padding(.top, 30)
