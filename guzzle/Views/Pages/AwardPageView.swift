@@ -38,7 +38,14 @@ struct AwardPageView: View {
 			}
 		}
 		.onAppear(perform: {
-
+			if(intakes[0].progress == 0) { // if the daily progress = 0, reset the achievment (ensures achievements cant be earnt across multiple days
+				if(achievements[1].progress < achievements[1].goal) { // if the progress is less than the goal then the achievement isnt earned (stops it removing achievements)
+					achievements[1].progress = 0
+				}
+				if(achievements[2].progress < achievements[2].goal) {
+					achievements[2].progress = 0
+				}
+			}
 		})
 	}
 }

@@ -11,6 +11,7 @@ struct HomePageView: View {
 	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
 	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement>
 	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile>
+	@FetchRequest(entity: Settings.entity(), sortDescriptors: []) var settings: FetchedResults<Settings>
 	@Environment(\.managedObjectContext) var moc
 	@State var todayProgress:Float = 0.0
 	var body: some View {
@@ -57,18 +58,20 @@ struct HomePageView: View {
 			Spacer()
 		}
 		.onAppear(perform: {
+			// if it is the first time the app has loaded, populate all core data structures
 			do {
-				// if intakes is empty (the first time the app is loaded), create the core data for all 6 days
+				// if there are no intakes (days tracked), then create 6 to represent all data shown on the home screen
 				if(intakes.isEmpty) {
 					for index in 0...5 {
 						let day = Intake(context: self.moc)
 						day.id = Float(index)
 						day.progress = 0
-						day.goal = 2.5
+						day.goal = 2.50
 						day.date = Date()
-						try? self.moc.save()
+						try self.moc.save()
 					}
 				}
+				
 				// if there are no achievements (the first time the app is loaded), create the core data for all the achievements
 				if(achievements.isEmpty) {
 					for index in (0...3).reversed() {
@@ -77,7 +80,7 @@ struct HomePageView: View {
 						achievement.name = ""
 						achievement.goal = 0
 						achievement.progress = 0
-						try? self.moc.save()
+						try self.moc.save()
 					}
 					// setup achievements
 					// achievement 1 - check your achievements
@@ -100,7 +103,7 @@ struct HomePageView: View {
 					achievements[3].progress = 0
 					achievements[3].name = "Create a profile!"
 					
-					try? self.moc.save()
+					try self.moc.save()
 					
 					// if there is no user profile, create one
 					if(profile.isEmpty) {
@@ -111,9 +114,16 @@ struct HomePageView: View {
 						profile.name = ""
 						profile.gender = "Male" // some values need to be populated for the suggested daily goal algorithm
 						profile.weight = ""
-						try? self.moc.save()
+						try self.moc.save()
 					}
-					
+				}
+				// if the settings havent been set up yet, create them
+				if(settings.isEmpty) {
+					let defaultSettings = Settings(context: self.moc)
+					defaultSettings.achivements = true
+					defaultSettings.healthkitSync = true
+					defaultSettings.suggestedGoal = true
+					try? self.moc.save()
 				}
 			} catch {
 				print("error initialising core data")

@@ -20,9 +20,15 @@
         <attribute name="suggestedGoal" optional="YES" attributeType="String"/>
         <attribute name="weight" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="Settings" representedClassName="Settings" syncable="YES" codeGenerationType="class">
+        <attribute name="achivements" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="healthkitSync" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="suggestedGoal" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
     <elements>
         <element name="Achievement" positionX="-63" positionY="9" width="128" height="89"/>
         <element name="Intake" positionX="-63" positionY="-18" width="128" height="89"/>
         <element name="Profile" positionX="-63" positionY="27" width="128" height="119"/>
+        <element name="Settings" positionX="-63" positionY="54" width="128" height="74"/>
     </elements>
 </model>

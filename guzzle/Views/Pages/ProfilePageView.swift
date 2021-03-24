@@ -110,16 +110,16 @@ struct ProfilePageView: View {
 										profile[0].gender = gender
 										profile[0].weight = weight
 										profile[0].activityLevel = activityLevel
-										try? self.moc.save()
+										try self.moc.save()
 										suggestedGoal = String(format: "%.2f", calculateSuggestedGoal(person: profile))
 										profile[0].suggestedGoal = suggestedGoal
 										achievements[3].progress = 1
-										try? self.moc.save()
+										try self.moc.save()
 									} catch {
 										print("error saving profile")
 									}
 								}, label: {
-									Text("Save")
+									Text("Save Profile")
 										.font(.system(size: 20))
 										.foregroundColor(.blue)
 								})
@@ -140,7 +140,6 @@ struct ProfilePageView: View {
 							.foregroundColor(.gray)
 					}
 					.font(.system(size: 25))
-//					.padding(.top, 15)
 					.padding(.horizontal, 25)
 					Spacer()
 				}
@@ -195,7 +194,7 @@ func calculateSuggestedGoal(person: FetchedResults<Profile>) -> Float {
 		}
 		return total
 	}
-	return 2.5
+	return 2.50
 	
 	
 }

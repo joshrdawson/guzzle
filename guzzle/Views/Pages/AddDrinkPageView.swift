@@ -127,7 +127,7 @@ struct AddDrinkPageView: View {
 						do {
 							let unwrapped = Float(amount) ?? 0
 							intakes[0].progress += unwrapped / 1000
-							try? self.moc.save()
+							try self.moc.save()
 							hideKeypad()
 							amount = ""
 							// update any achievments which may have changed from adding a drink
@@ -142,7 +142,8 @@ struct AddDrinkPageView: View {
 								achievements[2].goal = intakes[0].goal * 3
 								achievements[2].progress = intakes[0].progress
 							}
-							try? moc.save()
+							
+							try moc.save()
 						} catch {
 							print("error adding drink")
 						}

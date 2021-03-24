@@ -10,8 +10,12 @@ import SwiftUI
 struct SettingsPageView: View {
 	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
 	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile>
+	@FetchRequest(entity: Settings.entity(), sortDescriptors: []) var settings: FetchedResults<Settings>
 	@Environment(\.managedObjectContext) var moc
 	@State var dailyGoal: Double = 2
+	@State var toggleAchivements: Bool = true
+	@State var toggleHealthKitSync: Bool = true
+	@State var toggleSuggestedGoal: Bool = true
 	var body: some View {
 		VStack {
 			HStack {
@@ -44,7 +48,7 @@ struct SettingsPageView: View {
 							Slider(value: $dailyGoal, in: 1...10, step: 0.25)
 						}
 						HStack {
-							Text("Suggested Goal: \(profile[0].suggestedGoal == "" ? "2.5" : profile[0].suggestedGoal!)L")
+							Text(settings[0].suggestedGoal == true ? "Suggested Goal: \(profile[0].suggestedGoal == "" ? "2.5" : profile[0].suggestedGoal!)L" : "")
 								.font(.footnote)
 								.foregroundColor(.gray)
 							Spacer()
@@ -54,19 +58,6 @@ struct SettingsPageView: View {
 					.padding(.top, 10)
 				}
 				.foregroundColor(.white)
-				
-				HStack {
-					Button(action: {
-						intakes[0].goal = Float(dailyGoal)
-						try? self.moc.save()
-					}, label: {
-						Text("Save")
-							.font(.system(size: 20))
-					})
-					.padding(.leading, 50)
-					.padding(.top, 10)
-					Spacer()
-				}
 				
 				VStack {
 					HStack {
@@ -83,7 +74,7 @@ struct SettingsPageView: View {
 							SettingsIconView(iconName: "rosette")
 								.padding(.leading, 50)
 							Spacer()
-							Toggle(isOn: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Is On@*/.constant(true)/*@END_MENU_TOKEN@*/) {
+							Toggle(isOn: $toggleAchivements) {
 								Text("Achievements")
 									.font(.system(size: 25))
 									.foregroundColor(.white)
@@ -96,28 +87,28 @@ struct SettingsPageView: View {
 							.padding([.top, .bottom], 5)
 						
 						HStack {
-							SettingsIconView(iconName: "ruler")
+							SettingsIconView(iconName: "arrow.up.heart")
 								.padding(.leading, 50)
-							Text("Units")
-								.font(.system(size: 25))
-								.foregroundColor(.white)
 							Spacer()
-							Text("L, Kg")
-								.padding(.trailing, 15)
-								.font(.system(size: 20))
-								.foregroundColor(.gray)
+							Toggle(isOn: $toggleHealthKitSync) {
+								Text("Health Kit Sync")
+									.font(.system(size: 25))
+									.foregroundColor(.white)
+							}
+							.padding(.trailing, 15)
 						}
+						
 						
 						Divider()
 							.padding(.horizontal, 15)
 							.padding([.top, .bottom], 5)
 						
 						HStack {
-							SettingsIconView(iconName: "arrow.up.heart")
+							SettingsIconView(iconName: "target")
 								.padding(.leading, 50)
 							Spacer()
-							Toggle(isOn: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Is On@*/.constant(true)/*@END_MENU_TOKEN@*/) {
-								Text("Health Kit Sync")
+							Toggle(isOn: $toggleSuggestedGoal) {
+								Text("Suggested Goal")
 									.font(.system(size: 25))
 									.foregroundColor(.white)
 							}
@@ -127,6 +118,27 @@ struct SettingsPageView: View {
 						Divider()
 							.padding(.horizontal, 15)
 							.padding([.top, .bottom], 5)
+						
+						HStack {
+							Button(action: {
+								do {
+									intakes[0].goal = Float(dailyGoal)
+									try self.moc.save()
+									settings[0].achivements = toggleAchivements
+									settings[0].healthkitSync = toggleHealthKitSync
+									settings[0].suggestedGoal = toggleSuggestedGoal
+									try self.moc.save()
+								} catch {
+									print("error saving settings")
+								}
+							}, label: {
+								Text("Save Changes")
+									.font(.system(size: 20))
+							})
+							.padding(.leading, 50)
+							.padding(.top, 10)
+							Spacer()
+						}
 						
 					}
 					.padding(.trailing, 15)
@@ -141,7 +153,11 @@ struct SettingsPageView: View {
 			}
 		}
 		.onAppear(perform: {
+			// load up to date data
 			dailyGoal = Double(intakes[0].goal)
+			toggleAchivements = settings[0].achivements
+			toggleHealthKitSync = settings[0].healthkitSync
+			toggleSuggestedGoal = settings[0].suggestedGoal
 		})
 	}
 }
