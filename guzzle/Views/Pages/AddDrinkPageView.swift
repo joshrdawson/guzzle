@@ -11,8 +11,9 @@ struct AddDrinkPageView: View {
 	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement>
 	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
 	@Environment(\.managedObjectContext) var moc
-	@State var currentClicked: String = "Water"
-	@State var amount: String = ""
+	
+	@State var currentClicked: String = "Water" // represents the currently selected drink type
+	@State var amount: String = "" // represents the entered intake of water to add
 	var body: some View {
 		VStack {
 			HStack {
@@ -28,7 +29,7 @@ struct AddDrinkPageView: View {
 			VStack {
 				HStack {
 					ZStack {
-						DrinkTypeView(drinkType: "Water", color: .blue, currentClicked: $currentClicked)
+						DrinkTypeView(drinkType: "Water", color: .blue, currentClicked: $currentClicked) // a custom view which represents a drink type with a name, colour and status on whether its currently clicked. if currently clicked the background colour is slightly darker. 
 							.padding(.trailing, 10)
 						Button(action: {
 							currentClicked = "Water"
@@ -93,9 +94,9 @@ struct AddDrinkPageView: View {
 					Capsule()
 						.size(width: 350, height: 55)
 						.frame(width: 350, height: 55, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-						.foregroundColor(Color("awardBackground").opacity(0.5))
-					TextField("450ml", text: $amount)
-						.keyboardType(.numberPad)
+						.foregroundColor(Color("awardBackground").opacity(0.5)) // the colour awardBackground is a custom dark grey colour which is used throughout the app for uniformity
+					TextField("450ml", text: $amount) // 450ml is the placeholder text, the value of this TextField is bound to the state variable amount
+						.keyboardType(.numberPad) // the keyboard type is numberPad meaning only numbers can be entered
 						.foregroundColor(.gray)
 						.font(.system(size: 20))
 						.padding(.leading, 300)
@@ -117,13 +118,14 @@ struct AddDrinkPageView: View {
 					}
 				}
 				
-				Button(action: {
+				Button(action: { // the add drink button
 					do {
-						let unwrapped = Float(amount) ?? 0
-						intakes[0].progress += unwrapped / 1000
+						let unwrapped = Float(amount) ?? 0 // unwrap the amount as it is a string and the CoreData entity for intakes uses a Float for the progress
+						intakes[0].progress += unwrapped / 1000 // add the value / 1000 to the intake for today (index 0). Divide by 1000 to get the value in litres
 						try self.moc.save()
-						hideKeypad()
-						amount = ""
+						hideKeypad() // call the hideKeypad function which removes the keypad from the screen as a numberPad keyboard does not have a close button
+						amount = "" // reset the amount state variable
+						
 						// update any achievments which may have changed from adding a drink
 						// achivement 2 - smash your goal by over double
 						if(achievements[1].progress < achievements[1].goal) { // if achicement not achieved, then update. This stops you having to earn achievements every day
@@ -141,7 +143,7 @@ struct AddDrinkPageView: View {
 					} catch {
 						print("error adding drink")
 					}
-				}, label: {
+				}, label: { // represents the visual elements of the button
 					ZStack {
 						Capsule()
 							.size(width: 125, height: 55)
@@ -171,6 +173,6 @@ struct AddDrinkPageView_Previews: PreviewProvider {
 
 extension View {
 	func hideKeypad() {
-		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+		UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) // hides any keyboards visible on the screen
 	}
 }

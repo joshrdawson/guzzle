@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-class ViewRouter: ObservableObject {
+class ViewRouter: ObservableObject { // this class represents the ViewRouter which stores the current selcted page
 	@Published var currentTab: Page = .home
 }
 
-enum Page {
+enum Page { // this enum represents the different pages that could be displayed
 	case home
 	case me
 	case awards

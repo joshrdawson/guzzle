@@ -27,7 +27,7 @@ struct AwardPageView: View {
 			if(settings[0].achivements) { // only show achievements if the user has them enabled
 				VStack {
 					HStack {
-						AwardView(awardIcon: "7.circle", awardName: achievements[0].name!, currentProgress: achievements[0].progress, target: achievements[0].goal)
+						AwardView(awardIcon: "7.circle", awardName: achievements[0].name!, currentProgress: achievements[0].progress, target: achievements[0].goal) // AwardView is a custom made view class which represents an award the user can earn.
 						AwardView(awardIcon: "2.circle", awardName: achievements[1].name!, currentProgress: achievements[1].progress, target: achievements[1].goal)
 						AwardView(awardIcon: "flame.fill", awardName: achievements[2].name!, currentProgress: achievements[2].progress, target: achievements[2].goal)
 					}
@@ -51,6 +51,7 @@ struct AwardPageView: View {
 				if(achievements[2].progress < achievements[2].goal) {
 					achievements[2].progress = 0
 				}
+				// do not need to check achievement 3 as the achievement is for setting up a profile and that can only happen once as no data is tracked regarding its process. it is binary you either have or havent got a profile. 
 			}
 		})
 	}

@@ -12,9 +12,10 @@ struct ProfilePageView: View {
 	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement>
 	@FetchRequest(entity: Settings.entity(), sortDescriptors: []) var settings: FetchedResults<Settings>
 	@Environment(\.managedObjectContext) var moc
-	var activityLevels = ["Inactive", "Light", "Average", "Active"]
-	var genders = ["Male", "Female", "Other"]
-	@State var suggestedGoal:String = ""
+	var activityLevels = ["Inactive", "Light", "Average", "Active"] // an array representing the various activity levels (used to create a slider)
+	var genders = ["Male", "Female", "Other"] // an array representing the various genders (used to create a slider)
+	
+	@State var suggestedGoal:String = "" // state variables representing data the user can change
 	@State var name: String = ""
 	@State var age: String = ""
 	@State var gender: String = "Male"
@@ -38,7 +39,7 @@ struct ProfilePageView: View {
 			VStack {
 				HStack {
 					Spacer()
-					Image(gender == "Female" ? "avatar-female" : "avatar-male")
+					Image(gender == "Female" ? "avatar-female" : "avatar-male") // if the gender is female, then show the female avatar, otherwise show the male avatar
 						.resizable()
 						.aspectRatio(contentMode: .fit)
 						.padding(.horizontal, 20)
@@ -53,7 +54,7 @@ struct ProfilePageView: View {
 								HStack {
 									Text("Name: ")
 										.font(.system(size: 20))
-									TextField("Enter name", text: $name)
+									TextField("Enter name", text: $name) // name text field
 								}
 								
 								Divider()
@@ -61,7 +62,7 @@ struct ProfilePageView: View {
 								HStack {
 									Text("Age: ")
 										.font(.system(size: 20))
-									TextField("Enter age", text: $age)
+									TextField("Enter age", text: $age) // age text field
 								}
 								
 								Divider()
@@ -69,7 +70,7 @@ struct ProfilePageView: View {
 								HStack {
 									Text("Gender: ")
 										.font(.system(size: 20))
-									Picker("Enter gender:", selection: $gender) {
+									Picker("Enter gender:", selection: $gender) { // gender picker which uses the genders array as selections
 										ForEach(genders, id: \.self) {
 											Text($0)
 										}
@@ -85,7 +86,7 @@ struct ProfilePageView: View {
 							HStack {
 								Text("Weight (kg): ")
 									.font(.system(size: 20))
-								TextField("Enter weight", text: $weight)
+								TextField("Enter weight", text: $weight) // weight text field
 							}
 							
 							Divider()
@@ -93,7 +94,7 @@ struct ProfilePageView: View {
 							HStack {
 								Text("Activity Level: ")
 									.font(.system(size: 20))
-								Picker("Enter activity level", selection: $activityLevel) {
+								Picker("Enter activity level", selection: $activityLevel) { // activity picker which uses the activityLevels array as selections
 									ForEach(activityLevels, id: \.self) {
 										Text($0)
 									}
@@ -104,7 +105,7 @@ struct ProfilePageView: View {
 							}
 							
 							HStack {
-								Button(action: {
+								Button(action: { // represents the save button, when the user clicks save then save the information to the profile CoreData entity
 									do {
 										profile[0].name = name
 										profile[0].age = age
@@ -127,15 +128,15 @@ struct ProfilePageView: View {
 								.padding(.top, 10)
 								Spacer()
 							}
+							       
 							
-							
-							Text(settings[0].suggestedGoal ? "Suggested Goal: \(suggestedGoal == "" ? "2.5" : suggestedGoal)L" : "")
+							Text(settings[0].suggestedGoal ? "Suggested Goal: \(suggestedGoal == "" ? "2.50" : suggestedGoal)L" : "") // if the user has a suggested goal, display that as the suggested goal, otherwise use the default (2.5L)
 								.bold()
 								.font(.system(size: 25))
 								.padding(.top, 5)
 						}
 						.foregroundColor(.white)
-						Text(settings[0].suggestedGoal ? "Note: The suggested goal is based on your age, gender, weight and activity level. Actual reccomended daily intake may vary." : "")
+						Text(settings[0].suggestedGoal ? "Note: The suggested goal is based on your age, gender, weight and activity level. Actual reccomended daily intake may vary." : "") // disclaimer regarding the auto generated suggested goal
 							.font(.system(size: 10))
 							.frame(minHeight: 35)
 							.foregroundColor(.gray)
@@ -148,7 +149,7 @@ struct ProfilePageView: View {
 			}
 		}
 		.onAppear(perform: {
-			// load newest saved values 
+			// load newest saved values for the app view
 			name = profile[0].name!
 			age = profile[0].age!
 			suggestedGoal = profile[0].suggestedGoal!
@@ -167,7 +168,7 @@ struct ProfilePageView_Previews: PreviewProvider {
 	}
 }
 
-func calculateSuggestedGoal(person: FetchedResults<Profile>) -> Float {
+func calculateSuggestedGoal(person: FetchedResults<Profile>) -> Float { // this function used a users profile to create a suggested daily intake
 	let user = person[0]
 	
 	if(user.name != "") {
@@ -195,7 +196,7 @@ func calculateSuggestedGoal(person: FetchedResults<Profile>) -> Float {
 		}
 		return total
 	}
-	return 2.50
+	return 2.50 // by default reutrn 2.5 litres
 	
 	
 }

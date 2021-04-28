@@ -12,7 +12,8 @@ struct SettingsPageView: View {
 	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile>
 	@FetchRequest(entity: Settings.entity(), sortDescriptors: []) var settings: FetchedResults<Settings>
 	@Environment(\.managedObjectContext) var moc
-	@State var dailyGoal: Double = 2
+	
+	@State var dailyGoal: Double = 2 // appropriate state variables to store the dynamic UI elements on the settings page
 	@State var toggleAchivements: Bool = true
 	@State var toggleSuggestedGoal: Bool = true
 	var body: some View {
@@ -44,10 +45,10 @@ struct SettingsPageView: View {
 							Spacer()
 						}
 						HStack {
-							Slider(value: $dailyGoal, in: 1...10, step: 0.25)
+							Slider(value: $dailyGoal, in: 1...10, step: 0.25) // slider to select the dailyGoal. this is bound to the state variable dailyGoal. The slider ranges from 1-10 with a step of 0.25. meaning it can hold 1-10 litres and has a step of 250ml.
 						}
 						HStack {
-							Text(settings[0].suggestedGoal ? "Suggested Goal: \(profile[0].suggestedGoal == "" ? "2.5" : profile[0].suggestedGoal!)L" : "")
+							Text(settings[0].suggestedGoal ? "Suggested Goal: \(profile[0].suggestedGoal == "" ? "2.5" : profile[0].suggestedGoal!)L" : "") // display the users suggested goal, incase they want guidance on choosing their daily goal.
 								.font(.footnote)
 								.foregroundColor(.gray)
 							Spacer()
@@ -71,9 +72,9 @@ struct SettingsPageView: View {
 					VStack {
 						HStack {
 							SettingsIconView(iconName: "rosette")
-								.padding(.leading, 50)
+								.padding(.leading, 50)  // this custom view class represents a small settings icon. These icons feature an SF symbol, and have a blue rounded corner background.
 							Spacer()
-							Toggle(isOn: $toggleAchivements) {
+							Toggle(isOn: $toggleAchivements) { // the status of the toggles are binded to their respective state varaibles (ensuring they represent the current status of the toggles)
 								Text("Achievements")
 									.font(.system(size: 25))
 									.foregroundColor(.white)
@@ -106,6 +107,7 @@ struct SettingsPageView: View {
 								.padding(.leading, 50)
 							Text("Units")
 								.font(.system(size: 25))
+								.foregroundColor(.white)
 							Spacer()
 							Text("L, Kg")
 								.padding(.trailing, 15)
@@ -118,11 +120,10 @@ struct SettingsPageView: View {
 							.padding([.top, .bottom], 5)
 						
 						HStack {
-							Button(action: {
+							Button(action: { // save settings button
 								do {
-									intakes[0].goal = Float(dailyGoal)
-									try self.moc.save()
-									settings[0].achivements = toggleAchivements
+									intakes[0].goal = Float(dailyGoal) // Sliders produce strings, so a cast to Float is required before saving to the intakes entity
+									settings[0].achivements = toggleAchivements // save the toggles to the users settings
 									settings[0].suggestedGoal = toggleSuggestedGoal
 									try self.moc.save()
 								} catch {
@@ -150,7 +151,7 @@ struct SettingsPageView: View {
 			}
 		}
 		.onAppear(perform: {
-			// load up to date data
+			// load the users goal and current settings
 			dailyGoal = Double(intakes[0].goal)
 			toggleAchivements = settings[0].achivements
 			toggleSuggestedGoal = settings[0].suggestedGoal

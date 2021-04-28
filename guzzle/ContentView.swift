@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-	@StateObject var viewRouter: ViewRouter
-	@State var dailyGoal: Double = 2.0
+	@StateObject var viewRouter: ViewRouter // the view router handles the bottom hot bar and how it tranitions the content view to different page views
+	@State var dailyGoal: Double = 2.5
 	var body: some View {
 		ZStack {
 			Rectangle()
@@ -26,8 +26,8 @@ struct ContentView: View {
 							.shadow(radius: 3)
 					}
 					
-					switch viewRouter .currentTab { // Decide which view to display based on currentTab
-					case .home:
+					switch viewRouter .currentTab { // Decide which view to display based on the currentTab
+					case .home: // the viewRouter class has a enum which defines the different pages
 						HomePageView()
 					case .me:
 						ProfilePageView()
@@ -45,13 +45,13 @@ struct ContentView: View {
 					
 					HStack { // split into two HStack, this being the left side
 						Spacer()
-						BarItem(viewRouter: viewRouter, assignedPage: .home, systemIcon: "house", tabName: "Home")
+						BarItem(viewRouter: viewRouter, assignedPage: .home, systemIcon: "house", tabName: "Home") // a custom SwiftUI view which represents a button on the hot bar
 						Spacer()
 						BarItem(viewRouter: viewRouter, assignedPage: .me, systemIcon: "person", tabName: "Me")
 						Spacer( )
 					}
 					
-					PlusBarItem(viewRouter: viewRouter)
+					PlusBarItem(viewRouter: viewRouter) // since there is a central plus icon for adding water intake, that uses a different SwiftUi view
 					
 					HStack {
 						Spacer()
@@ -81,7 +81,7 @@ struct BarItem: View {
 	
 	var body: some View {
 		VStack {
-			Image(systemName: systemIcon)
+			Image(systemName: systemIcon) // systemName indices the use of the Apple SF Symbols library for native icon support
 			Text(tabName)
 				.font(.footnote)
 				.padding(.top, 1)
@@ -91,7 +91,7 @@ struct BarItem: View {
 		.padding(.top, 5)
 		.padding(.bottom, 35)
 		.onTapGesture {
-			viewRouter.currentTab = assignedPage
+			viewRouter.currentTab = assignedPage // when the icon is tapped, set the currentTab to the assignedPage variable, which represents the enumerated value for the button/page
 		}
 		
 	}

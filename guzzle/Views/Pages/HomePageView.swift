@@ -9,12 +9,12 @@ import SwiftUI
 import HealthKit
 
 struct HomePageView: View {
-	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake>
-	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement>
-	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile>
-	@FetchRequest(entity: Settings.entity(), sortDescriptors: []) var settings: FetchedResults<Settings>
-	@Environment(\.managedObjectContext) var moc
-	@State var todayProgress:Float = 0.0
+	@FetchRequest(entity: Intake.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var intakes: FetchedResults<Intake> // this fetchrequest fetches the water intakes, and sorts them using their ID in ascending order. This means that they will be sorted from day 0 to day 6 for displaying on the screen
+	@FetchRequest(entity: Achievement.entity(), sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var achievements: FetchedResults<Achievement> // this fetchrequest represents the tracking of all achievements
+	@FetchRequest(entity: Profile.entity(), sortDescriptors: []) var profile: FetchedResults<Profile> // this fetch request represents the users profile, this is needed to display their goal and target
+	@FetchRequest(entity: Settings.entity(), sortDescriptors: []) var settings: FetchedResults<Settings> // this fetch request represents the settings, it is needed for achievement tracking
+	@Environment(\.managedObjectContext) var moc // the managedobject context handles the writing to the CoreData model
+	@State var todayProgress:Float = 0.0 // this state varaible represents the users progress on the current day, it is a state variable as it changes when they consume more water
 	var body: some View {
 		VStack {
 			HStack {
@@ -26,7 +26,7 @@ struct HomePageView: View {
 					.foregroundColor(.white)
 				Spacer()
 			}
-			.padding(.top, 45)
+			.padding(.top, 40)
 			
 			VStack {
 				HStack {
@@ -38,7 +38,7 @@ struct HomePageView: View {
 					Spacer()
 				}
 				CircularProgressBar(goal: intakes.isEmpty ? 2 : intakes[0].goal, progress: intakes.isEmpty ? 0 : intakes[0].progress)
-					.frame(width: 130, height: 130, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+					.frame(width: 130, height: 130, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) // the circular progress bar represents the today progress and uses the appopriate data from the intakes fetch request
 				HStack {
 					Text("This week")
 						.font(.system(size: 35))
@@ -49,11 +49,12 @@ struct HomePageView: View {
 						.foregroundColor(.white)
 					Spacer()
 				}
-				ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[1].goal, progress: intakes.isEmpty ? 3 : intakes[1].progress)
+				ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[1].goal, progress: intakes.isEmpty ? 3 : intakes[1].progress) // a progress capsule is a view which represents the intake for a day, because it is using data from a fetch request meaning its optioinal data, there must be backup information which in this case is a goal of 0 and a progress of 3.
 				ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[2].goal, progress: intakes.isEmpty ? 3 : intakes[2].progress)
 				ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[3].goal, progress: intakes.isEmpty ? 3 : intakes[3].progress)
 				ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[4].goal, progress: intakes.isEmpty ? 3 : intakes[4].progress)
 				ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[5].goal, progress: intakes.isEmpty ? 3 : intakes[5].progress)
+				ProgressCapsule(goal: intakes.isEmpty ? 0 : intakes[6].goal, progress: intakes.isEmpty ? 3 : intakes[6].progress)
 			}
 			.padding(.top, 15)
 			Spacer()
@@ -63,13 +64,13 @@ struct HomePageView: View {
 			do {
 				// if there are no intakes (days tracked), then create 6 to represent all data shown on the home screen
 				if(intakes.isEmpty) {
-					for index in 0...5 {
+					for index in 0...6 {
 						let day = Intake(context: self.moc)
 						day.id = Float(index)
 						day.progress = 0
-						day.goal = 2.50
+						day.goal = 2.50 // set the first goal to 2.5 litres
 						day.date = Date()
-						try self.moc.save()
+						try self.moc.save() // try to save, the save operation may fail so it is required to be prefaced with a try
 					}
 				}
 				
@@ -155,7 +156,7 @@ struct HomePageView_Previews: PreviewProvider {
 	}
 }
 
-func isSameDay(dateX: Date, dateY: Date) -> Bool {
+func isSameDay(dateX: Date, dateY: Date) -> Bool { // a function which returns true if the two specified Date objects are in the same day
 	let difference = Calendar.current.dateComponents([.day], from: dateX, to: dateY)
 	if difference.day == 0 {
 		return true
